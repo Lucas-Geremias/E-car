@@ -2,8 +2,8 @@ package com.ecar.api;
 
 import com.ecar.domain.Carro;
 import com.ecar.domain.CarroService;
+import com.ecar.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,29 +18,23 @@ public class CarrosController {
     private CarroService service;
 
     @GetMapping()
-    public ResponseEntity<Iterable<Carro>> get(){
-        return new ResponseEntity<>(service.getCarros(), HttpStatus.OK);
+    public ResponseEntity get(){
+        return ResponseEntity.ok(service.getCarros());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id){
-        Optional<Carro> carro =  service.getCarroById(id);
+        Optional<CarroDTO> carro =  service.getCarroById(id);
 
         return carro
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
 
-//        if (carro.isPresent()){
-//            return ResponseEntity.ok(carro.get());
-//      }else{
-//          return ResponseEntity.notFound().build();
-//      }
-
     }
 
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo){
-        List<Carro> carros =  service.getCarroByTipo(tipo);
+        List<CarroDTO> carros =  service.getCarrosByTipo(tipo);
 
         return carros.isEmpty() ?
                 ResponseEntity.noContent().build() :
@@ -55,11 +49,15 @@ public class CarrosController {
     }
 
     @PutMapping("/{id}")
-    public String put(@PathVariable("id") Long id, @RequestBody Carro carro){
+    public ResponseEntity put(@PathVariable("id") Long id, @RequestBody Carro carro) {
 
-        Carro c = service.update(carro, id);
+        carro.setId(id);
 
-        return "Carro atualizado com sucesso: " + c.getId();
+        CarroDTO c = service.update(carro, id);
+
+        return c != null ?
+                ResponseEntity.ok(c) :
+                ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
