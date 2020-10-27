@@ -1,8 +1,6 @@
-package com.ecar.domain;
+package com.ecar.api.carros;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,15 +9,12 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Role implements GrantedAuthority {
+public class Carro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-
-    @Override
-    public String getAuthority() {
-        return nome;
-    }
+    private String tipo;
 }

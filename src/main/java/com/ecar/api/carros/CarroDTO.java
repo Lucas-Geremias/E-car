@@ -1,6 +1,5 @@
-package com.ecar.domain.dto;
+package com.ecar.api.carros;
 
-import com.ecar.domain.Carro;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 

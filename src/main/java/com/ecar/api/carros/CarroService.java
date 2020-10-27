@@ -1,7 +1,6 @@
-package com.ecar.domain;
+package com.ecar.api.carros;
 
 import com.ecar.api.exception.ObjectNotFoundException;
-import com.ecar.domain.dto.CarroDTO;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

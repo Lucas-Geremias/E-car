@@ -1,4 +1,4 @@
-package com.ecar.domain;
+package com.ecar.usuarios;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

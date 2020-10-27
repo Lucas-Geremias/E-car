@@ -1,10 +1,8 @@
 package com.ecar.api.carros;
 
-import com.ecar.domain.Carro;
-import com.ecar.domain.CarroService;
-import com.ecar.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -41,6 +39,7 @@ public class CarrosController {
     }
 
     @PostMapping
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity post(@RequestBody Carro carro){
             CarroDTO c = service.insert(carro);
 

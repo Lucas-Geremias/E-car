@@ -1,4 +1,4 @@
-package com.ecar.domain;
+package com.ecar.usuarios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
