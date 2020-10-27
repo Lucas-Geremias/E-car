@@ -1,7 +1,7 @@
 package com.ecar.api.security;
 
-import com.carros.domain.User;
-import com.carros.domain.UserRepository;
+import com.ecar.domain.User;
+import com.ecar.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

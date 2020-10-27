@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.util.Base64;
+
 
 //https://firebase.google.com/docs/storage/admin/start
 @Service
@@ -47,18 +49,16 @@ public class FirebaseStorageService {
         Bucket bucket = StorageClient.getInstance().bucket();
         System.out.println(bucket);
 
-//        Blob blob = bucket.create("nome.txt","Ricardo Ninja Lecheta".getBytes(), "text/html");
-
         byte[] bytes = Base64.getDecoder().decode(uploadInput.getBase64());
 
         String fileName = uploadInput.getFileName();
-        Blob blob = bucket.create(fileName,bytes, uploadInput.getMimeType());
+        Blob blob = (Blob) bucket.create(fileName,bytes, uploadInput.getMimeType());
 
         // Assina URL válida por N dias
         //URL signedUrl = blob.signUrl(1, TimeUnit.DAYS);
 
         // Deixa URL pública
-        blob.createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
+        ((com.google.cloud.storage.Blob) blob).createAcl(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
 
         return String.format("https://storage.googleapis.com/%s/%s",bucket.getName(),fileName);
     }

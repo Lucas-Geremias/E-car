@@ -1,7 +1,7 @@
 package com.ecar.domain;
 
+import com.ecar.api.exception.ObjectNotFoundException;
 import com.ecar.domain.dto.CarroDTO;
-import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class CarroService {
 
     public CarroDTO getCarroById(Long id) {
         Optional<Carro> carro = rep.findById(id);
-        return carro.map(CarroDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
+        return carro.map(CarroDTO::create).orElseThrow( () -> new ObjectNotFoundException("Carro não encontrado"));
     }
 
     public List<CarroDTO> getCarrosByTipo(String tipo) {
