@@ -1,4 +1,4 @@
-package com.ecar.api;
+package com.ecar.api.carros;
 
 import com.ecar.domain.Carro;
 import com.ecar.domain.CarroService;
@@ -10,7 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/carros")
@@ -26,11 +25,9 @@ public class CarrosController {
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id){
-        Optional<CarroDTO> carro =  service.getCarroById(id);
+        CarroDTO carro =  service.getCarroById(id);
 
-        return carro
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(carro);
 
     }
 
@@ -45,14 +42,10 @@ public class CarrosController {
 
     @PostMapping
     public ResponseEntity post(@RequestBody Carro carro){
-        try {
             CarroDTO c = service.insert(carro);
 
             URI location = getUri(c.getId());
             return ResponseEntity.created(location).build();
-        }catch (Exception ex){
-            return ResponseEntity.badRequest().build();
-        }
     }
     private URI getUri(Long id) {
         return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -72,10 +65,10 @@ public class CarrosController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id){
+    public ResponseEntity delete(@PathVariable("id") Long id) {
         service.delete(id);
 
-        return "Carro deletado com sucesso";
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.ecar.domain;
 
 import com.ecar.domain.dto.CarroDTO;
+import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class CarroService {
 
     }
 
-    public Optional<CarroDTO> getCarroById(Long id) {
-
-        return rep.findById(id).map(CarroDTO::create);
+    public CarroDTO getCarroById(Long id) {
+        Optional<Carro> carro = rep.findById(id);
+        return carro.map(CarroDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
     }
 
     public List<CarroDTO> getCarrosByTipo(String tipo) {
@@ -61,10 +62,7 @@ public class CarroService {
     }
 
     public void delete(Long id) {
-
-        if (getCarroById(id).isPresent()){
-            rep.deleteById(id);
-        }
+        rep.deleteById(id);
     }
 
 
